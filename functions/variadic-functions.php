@@ -1,10 +1,10 @@
 <?php
 declare (strict_types=1);
 
-/***********************************************************
+/****************************************************************
  * PHP Variadic Functions
- * (using the "..." to pass unlimited variables as an array)
- ***********************************************************/
+ * (using the "..." to unpack unlimited parameters as an array)
+ ****************************************************************/
 
  function sum(int ...$numbers) {
     echo "<pre>";
