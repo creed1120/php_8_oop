@@ -1,6 +1,5 @@
 <?php
 // Custom PHP code
-
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +22,16 @@
                 // include_once './blastoff.php';
                 // include_once './foreach-loop.php';
                 // include_once './functions/php-functions.php';
-                // include_once './functions/variadic-functions.php'
+                // include_once './functions/variadic-functions.php';
+                // include_once './functions/anonymous-function.php';
+                // include_once './scope.php';
+                // include_once './null.php';
+                // include_once './functions/named-functions.php';
+                // include './functions/arrow-functions.php';
+                // include_once './functions/higher-order-functions.php';
+                // include_once './strings-numbers-arrarys.php';
+                // include_once './arrays.php';
+                include_once './classes/class1.php';
             ?>
 
             <h2 id="output"></h2>
