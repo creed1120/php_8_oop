@@ -9,14 +9,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PHP 8 OOP Advanced</title>
 
-        <link rel="stylesheet" href="./dist/app.css">
+        <link rel="stylesheet" href="/dist/app.css">
     </head>
     <body>
 
-        <div class="container">
+        <div class="container mt-5">
             <h1>PHP 8 OOP Advanced Project</h1>
-            <hr>
+        </div>
 
+        <div class="container my-5">
+            <hr>
+            <h2 id="output"></h2>
+        </div>
+
+        <div class="container my-5">
             <?php
                 // php code here
                 // include_once './blastoff.php';
@@ -31,12 +37,20 @@
                 // include_once './functions/higher-order-functions.php';
                 // include_once './strings-numbers-arrarys.php';
                 // include_once './arrays.php';
-                include_once './classes/class1.php';
+                // include_once './classes/PhpClass.php';
+                // include_once './classes/Encapsulation.php';
+                include_once './classes/MathUtils.php';
             ?>
+        </div>
 
-            <h2 id="output"></h2>
+        <div class="container">
+            <?php
+                // include_once("./includes/bs-table.php");
+                // include_once("./includes/bs-accordion.php");
+                // include_once("./includes/bs-alert.php");\
+            ?>
         </div>
         
-        <script src="./dist/app.js" type="text/javascript"></script>
+        <script src="/dist/app.js" type="text/javascript"></script>
     </body>
 </html>
