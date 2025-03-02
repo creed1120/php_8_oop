@@ -12,7 +12,7 @@
  }
 
 echo MathUtils::$pi . "<br>";
-echo MathUtils::square(24);
+echo MathUtils::square(24) . "<br>";
 
 
 /*****************************
