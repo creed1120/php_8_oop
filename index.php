@@ -40,7 +40,8 @@
                 // include_once './classes/PhpClass.php';
                 // include_once './classes/Encapsulation.php';
                 // include_once './classes/MathUtils-Singleton.php';
-                include_once './classes/Interfaces.php';
+                // include_once './classes/Interfaces.php';
+                include_once './classes/Traits.php';
             ?>
         </div>
 
