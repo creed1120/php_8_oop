@@ -4,15 +4,15 @@
  ****************************/
 
 interface PaymentProcessor {
-    // (float) for variable & (bool) on success
-    public function processPayment(float $amount): bool;
-    public function refundPayment(float $amount): bool;
+    // (float | int) for variable & (bool) on success
+    public function processPayment(float | int $amount): bool;
+    public function refundPayment(float | int $amount): bool;
 }
 
 // abstract class PaymentProcessor {
-//     // (float) for variable & (bool) on success
-//     abstract public function processPayment(float $amount): bool;
-//     abstract public function refundPayment(float $amount): bool;
+//     // (float | int) for variable & (bool) on success
+//     abstract public function processPayment(float | int $amount): bool;
+//     abstract public function refundPayment(float | int $amount): bool;
 // }
 
 /**
@@ -29,18 +29,18 @@ abstract class OnlinePaymentProcessor implements PaymentProcessor {
 
     // this "abstract" funcion has to be implemented by a class that implements the current class it is defined in.
     abstract protected function validateApiKey(): bool;
-    abstract protected function executePayment(float $amount): bool;
-    abstract protected function executeRefund(float $amount): bool;
+    abstract protected function executePayment(float | int $amount): bool;
+    abstract protected function executeRefund(float | int $amount): bool;
 
 
-    public function processPayment(float $amount): bool {
+    public function processPayment(float | int $amount): bool {
         if ( ! $this->validateApiKey() ) {
             throw new Exception("Invalid API Key");
         }
         return $this->executePayment($amount);
     }
 
-    public function refundPayment(float $amount): bool {
+    public function refundPayment(float | int $amount): bool {
         if ( ! $this->validateApiKey() ) {
             throw new Exception("Invalid API Key");
         }
@@ -52,13 +52,13 @@ abstract class OnlinePaymentProcessor implements PaymentProcessor {
  * Concrete class
  */
 // Implements all the Interface methods & also implements all Abstract class methods.
-class StripeProcessor extends OnlinePaymentProcessor {
+final class StripeProcessor extends OnlinePaymentProcessor {
     // implemented from the abstract "validateApiKey()" function in the OnlinePaymentProcessor class
-    protected function executePayment(float $amount): bool {
+    protected function executePayment(float | int $amount): bool {
         echo "Processing Stripe Payment of $amount\n" . "<br>";
         return true;
     }
-    protected function executeRefund(float $amount): bool {
+    protected function executeRefund(float | int $amount): bool {
         echo "Processing Stripe Refund of $amount\n" . "<br>";
         return true;
     }
@@ -70,13 +70,15 @@ class StripeProcessor extends OnlinePaymentProcessor {
     }
 }
 
+// class StripeProcessorV2 extends StripeProcessor {}
+
 class PayPalProcessor extends OnlinePaymentProcessor {
     // implemented from the abstract "validateApiKey()" function in the OnlinePaymentProcessor class
-    protected function executePayment(float $amount): bool {
+    protected function executePayment(float | int $amount): bool {
         echo "Processing PayPal Payment of $amount\n" . "<br>";
         return true;
     }
-    protected function executeRefund(float $amount): bool {
+    protected function executeRefund(float | int $amount): bool {
         echo "Refunding PayPal Payment of $amount\n" . "<br>";
         return true;
     }
@@ -87,22 +89,22 @@ class PayPalProcessor extends OnlinePaymentProcessor {
 }
 
 class CashPaymentProcessor implements PaymentProcessor {
-    public function processPayment(float $amount): bool {
+    public function processPayment(float | int $amount): bool {
         echo "Cash Payment ... <br>";
         return true;
     }
 
-    public function refundPayment(float $amount): bool {
+    public function refundPayment(float | int $amount): bool {
         echo "Cash Refund ...<br>";
         return true;
     }
 
-    public function executePayment(float $amount): bool {
+    public function executePayment(float | int $amount): bool {
         echo "Cash Payment ... <br>";
         return true;
     }
 
-    public function executeRefund(float $amount): bool {
+    public function executeRefund(float | int $amount): bool {
         echo "Cash Refund ...<br>";
         return true;
     }
@@ -112,13 +114,23 @@ class CashPaymentProcessor implements PaymentProcessor {
 // can work with any of the payment processors that we have Stripe, PayPal, or CashPayment
 class OrderProcessor {
 
-    public function __construct(private PaymentProcessor $paymentProcessor) {
-                                          // ^^^^ Composition ^^^^ //
+    public function __construct(private PaymentProcessor $paymentProcessor)
+                                            // ^^^^ Composition ^^^^ //
+    {
     }
 
-    public function processOrder(float $amount): void
+    // union type "|" pipe operator (added string & array types to $items variable)
+    public function processOrder(float | int $amount, string | array $items): void
     {
         // do something...
+
+        if ( is_array($items) ) {
+            $itemsList = implode(', ', $items);
+        } else {
+            $itemsList = $items;
+        }
+
+        echo "List of items: $itemsList" . "<br>";
 
         if ($this->paymentProcessor->processPayment($amount)) {
             echo "Order processed successfully\n" . "<br>";
@@ -127,7 +139,7 @@ class OrderProcessor {
         }
     }
 
-    public function refundOrder(float $amount): void
+    public function refundOrder(float | int $amount): void
     {
         // do something...
         
@@ -156,9 +168,14 @@ $stripeOrder = new OrderProcessor($stripeProcessor);
 $paypalOrder = new OrderProcessor($paypalProcessor);
 $cashOrder = new OrderProcessor($cashProcessor);
 
-$stripeOrder->processOrder(100.00);
-$paypalOrder->processOrder(150.00);
-$cashOrder->processOrder(50.00);
+// $stripeOrder->processOrder(100.00);
+// $paypalOrder->processOrder(150.00);
+// $cashOrder->processOrder(50.00);
+
+// adding the "string | array $items" parameters from "processOrder()" function
+$stripeOrder->processOrder(100.00, "Book");
+$paypalOrder->processOrder(150.00, ['Book', 'Tablet']);
+$cashOrder->processOrder(50.00, ['Apple', 'Orange', 'Banana']);
 
 $stripeOrder->refundOrder(25.00);
 $paypalOrder->refundOrder(50.00);

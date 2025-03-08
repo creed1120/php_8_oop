@@ -41,7 +41,8 @@
                 // include_once './classes/Encapsulation.php';
                 // include_once './classes/MathUtils-Singleton.php';
                 // include_once './classes/Interfaces.php';
-                include_once './classes/Traits.php';
+                // include_once './classes/Traits.php';
+                // include_once './classes/Enums.php';
             ?>
         </div>
 
@@ -49,7 +50,10 @@
             <?php
                 // include_once("./includes/bs-table.php");
                 // include_once("./includes/bs-accordion.php");
-                // include_once("./includes/bs-alert.php");\
+                // include_once("./includes/bs-alert.php");
+
+                // include_once( "./forms.php" );
+                include_once( "./session-cookies.php" );
             ?>
         </div>
         
